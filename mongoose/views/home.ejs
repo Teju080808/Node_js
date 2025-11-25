@@ -9,7 +9,7 @@
     <form action="/insertData" method="post" enctype="multipart/form-data">
       <input type="text" name="username" placeholder="username" />
       <input type="password" name="password" placeholder="password" />
-      <input type="file" name="image" multiple />
+      <input type="file" name="image" />
       <input type="submit" />
     </form>
 
@@ -20,16 +20,11 @@
         <th>IMG</th>
       </tr>
 
-      <% userr.map((el,i)=>{%>
+      <% data.map((el,i)=>{%>
       <tr>
         <td><%= el.username%></td>
         <td><%= el.password%></td>
-        <!-- <td><img src="<%= el.image %>" alt="" height="100px" width="100px"></td> -->
-        <td>
-          <% el.image.forEach(img => { %>
-          <img src="/<%= img %>" width="100" height="100" />
-          <% }) %>
-        </td>
+        <td><img src="<%= el.image %>" alt="" height="100px" width="100px"></td>
         <td><a href="/delete?id=<%= el.id%>">Delete</a></td>
         <td><a href="/edit?id=<%= el.id%>">Edit</a></td>
       </tr>

@@ -8,7 +8,7 @@ const userModel=mongoose.Schema({
     password:{
         type:String
     },image:{
-        type:[String],
+        type:String,
     }
 })
 

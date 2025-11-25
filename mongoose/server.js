@@ -16,33 +16,39 @@ const storage = multer.diskStorage({
     cb(null, "upload/");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
+    cb(null,file.originalname);
   },
 });
 
-// const ImageUpload = multer({ storage: storage }).single("image")
-const ImageUpload = multer({ storage: storage }).array("image", 2);
+const ImageUpload = multer({ storage: storage }).single("image");
 
 app.get("/", async (req, res) => {
-  const userr = await user.find({});
-  res.render("home", { userr });
+   await user.find({}).then((data)=>{
+     res.render("home", { data });
+   }).catch((err)=>{
+    console.log(err)
+   })
 });
 
 app.post("/insertData", ImageUpload, async (req, res) => {
 
   const { username, password } = req.body;
 
-  let images = [];
+  let images =""
 
-  if (req.files) {
-    images = req.files.map((file) => file.path);
+  if (req.file) {
+    images = req.file.path
   }
 
   await user.create({
     username:username,
     password,
     image: images
-  });
+  }).then((data)=>{
+    console.log(data)
+  }).catch((err)=>{
+    console.log(err)
+  })
 
   res.redirect("/");
 });
